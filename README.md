@@ -1,89 +1,79 @@
 <!DOCTYPE html>
-<html lang="so">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casri Electronics </title>
-    <link rel="icon" type="image/x-icon" href="casri logo.png">
+    <title>Dashboard - Global General Trading Company</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        header {
+            background: #c20232;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+        }
+        header img {
+            height: 50px;
+            margin-right: 20px;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .dashboard-container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #013031, #06063b);
+            gap: 20px;
+            margin-top: 50px;
         }
-        .container {
-            background: white;
+        .dashboard-item {
+            background: #fff;
             padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
-            width: 300px;
+            width: 150px;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            animation: fadeIn 2s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 10px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #e40013;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #073b44;
-        }
-        .error {
-            color: red;
+        .dashboard-item a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            display: block;
             margin-top: 10px;
-            display: none;
+        }
+        .dashboard-item img {
+            width: 50px;
+            height: 50px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Casri Electronics</h1>
-        <img src="casri logo.png" alt="Casri Logo">
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-            <p class="error" id="error">Username ama Password waa khalad!</p>
-        </form>
-    </div>
-    <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var error = document.getElementById("error");
-            
-            if (username === "mohan" && password === "hasan") {
-                window.location.href = "file:///C:/Users/Global/Desktop/casri%20form/casri%20dashbaord.html";
-            } else {
-                error.style.display = "block";
-            }
-        });
-    </script>
+    <header>
+       
+    </header>
+    <img src="casri logo.png" alt="Company Logo">
+    <h1>                    CASRI ELECTRONICS AND STATIONERY</h1>
+    <section class="dashboard-container">
+        <div class="dashboard-item">
+            <img src="xog.jpg" alt="Xog Xareen">
+            <a href="file:///C:/Users/Global/Desktop/CASRI/casri.html">Xog Xareyn</a>
+        </div>
+        <div class="dashboard-item">
+            <img src="deen.png" alt="Deen Qabasho">
+            <a href="file:///C:/Users/Global/Desktop/CASRI/depty.html">Deen Qabasho</a>
+        </div>
+        <div class="dashboard-item">
+            <img src="statment1.png" alt="Statement">
+            <a href="#">Statement</a>
+        </div>
+    </section>
+</body>
+</html>
+
