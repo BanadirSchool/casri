@@ -3,206 +3,1184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASRI Electronic & STATIONARY</title>
-    <link rel="icon" type="image/x-icon" href="casri logo.png">
-
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>School Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #ff4d4d;
-            text-align: center;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #b30000;
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--primary);
             color: white;
-            padding: 15px;
+            padding: 20px 0;
+            transition: all 0.3s;
+            z-index: 1000;
         }
-        .logo-left img, .logo-right img {
-            height: 50px;
+
+        .logo {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
         }
-        .box-container {
+
+        .logo h2 {
+            font-size: 1.5rem;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0 15px;
+        }
+
+        .nav-links li {
+            margin-bottom: 5px;
+        }
+
+        .nav-links a {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 50px 0;
-        }
-        .box {
-            background-color: white;
-            color: #b30000;
-            padding: 20px;
-            border-radius: 10px;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--light);
             text-decoration: none;
-            font-size: 18px;
-            width: 150px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a i {
+            margin-right: 10px;
+            width: 20px;
             text-align: center;
-            font-weight: bold;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
         }
-        .box img {
-            width: 50px;
-            height: 50px;
-            display: block;
-            margin: 0 auto 10px;
-        }
-        .box:hover {
-            background-color: #b30000;
+
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--secondary);
             color: white;
         }
-        .chart-container {
-            width: 80%;
-            margin: 50px auto;
-            background: white;
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 250px;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
         }
-        .input-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .input-box {
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        footer {
-            background-color: #800505ce;
-            color: white;
-            padding: 15px;
-            position: relative;
-            width: 100%;
-            bottom: 0;
+
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* DASHBOARD CARDS */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card.students i { color: var(--secondary); }
+        .card.payments i { color: var(--success); }
+        .card.exams i { color: var(--accent); }
+        .card.attendance i { color: #f39c12; }
+
+        .card h3 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        /* FORMS */
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .form-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-header h2 {
+            color: var(--primary);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .btn-danger {
+            background: var(--accent);
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        /* TABLES */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .edit-btn {
+            background: #3498db;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+        }
+
+        .view-btn {
+            background: #2ecc71;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -250px;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .menu-btn {
+                display: block;
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .main-content.active {
+                margin-left: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .form-row {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* UTILITIES */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
             margin-top: 20px;
         }
-        .social {
-            color: white;
-            text-decoration: none;
-            margin: 0 50px;
+
+        .mt-30 {
+            margin-top: 30px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d5edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: bold;
         }
-        .social:hover {
-            text-decoration: underline;
-        }
-        .footer-logo img {
-            height: 40px;
-        }
-       
 
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo-left">
-            <img src="casri logo.png" width="100" height="200px" alt="Casri Electronic Logo">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>School<span>MS</span></h2>
         </div>
-        <h1>Casri Electronic</h1>
-    </header>
+        <ul class="nav-links">
+            <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="#" data-page="registration"><i class="fas fa-user-plus"></i> Diiwaan Galin</a></li>
+            <li><a href="#" data-page="students"><i class="fas fa-users"></i> Ardayda</a></li>
+            <li><a href="#" data-page="payment"><i class="fas fa-money-bill"></i> Lacag Qabasho</a></li>
+            <li><a href="#" data-page="payment-history"><i class="fas fa-history"></i> Taarikhda Lacagta</a></li>
+            <li><a href="#" data-page="statement"><i class="fas fa-file-alt"></i> Statement</a></li>
+            <li><a href="#" data-page="exam"><i class="fas fa-edit"></i> Imtixaan</a></li>
+            <li><a href="#" data-page="transfer"><i class="fas fa-exchange-alt"></i> Fasal Badal</a></li>
+            <li><a href="#" data-page="attendance"><i class="fas fa-calendar-check"></i> Hadaladka</a></li>
+            <li><a href="#" data-page="absent"><i class="fas fa-user-times"></i> Maqnaanshaha</a></li>
+        </ul>
+    </div>
 
-    <main>
-        <div class="box-container">
-             <a href="https://banadirschool.github.io/dashboard/"target="_blank" class="box"><img src="deen.png" alt="Deemaha"><p>Deemaha</p></a>
-            <a href="file:///C:/Users/Global/Desktop/casri%20form/deemaha.html"target="_blank" class="box"><img src="deen.png" alt="Deemaha"><p>Deemaha</p></a> 
-            <a href="file:///C:/Users/Global/Desktop/casri%20form/chart.html" target="_blank" class="box"><img src="chart.png" alt="Chart"><p>Chart</p></a>
-            
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <button class="menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 id="pageTitle">Dashboard</h1>
+            <div class="user-info">
+                <span>Admin</span>
+                <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
+            </div>
         </div>
 
-        <div class="input-container">
-            <input type="date" id="date" class="input-box">
-            <input type="number" id="amount" class="input-box" placeholder="Lacagta">
-            <button onclick="updateChart()">Update Chart</button>
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="page-content">
+            <div class="dashboard-cards">
+                <div class="card students">
+                    <i class="fas fa-users"></i>
+                    <h3>Tirada Ardayda</h3>
+                    <div class="number" id="totalStudents">0</div>
+                </div>
+                <div class="card payments">
+                    <i class="fas fa-money-bill"></i>
+                    <h3>Lacagaha la Bixiyay</h3>
+                    <div class="number" id="totalPayments">0</div>
+                </div>
+                <div class="card exams">
+                    <i class="fas fa-edit"></i>
+                    <h3>Imtixaannada</h3>
+                    <div class="number" id="totalExams">0</div>
+                </div>
+                <div class="card attendance">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Heerka Hadaladka</h3>
+                    <div class="number" id="attendanceRate">0%</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h2>Ardayda Cusub</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Magaca</th>
+                            <th>Fasalka</th>
+                            <th>Taariikhda</th>
+                            <th>Lacagta</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentStudents">
+                        <!-- Data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="chart-container">
-            <h2>Xogta Sanadlaha</h2>
-            <canvas id="myChart"></canvas>
+        <!-- REGISTRATION -->
+        <div id="registration" class="page-content hidden">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Diiwaangelinta Ardayda Cusub</h2>
+                </div>
+                <form id="registrationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentName">Magaca Ardayga</label>
+                            <input type="text" id="studentName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentClass">Fasalka</label>
+                            <select id="studentClass" class="form-control" required>
+                                <option value="">Dooro Fasalka</option>
+                                <option value="Grade 1">Grade 1</option>
+                                <option value="Grade 2">Grade 2</option>
+                                <option value="Grade 3">Grade 3</option>
+                                <option value="Grade 4">Grade 4</option>
+                                <option value="Grade 5">Grade 5</option>
+                                <option value="Grade 6">Grade 6</option>
+                                <option value="Grade 7">Grade 7</option>
+                                <option value="Grade 8">Grade 8</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentName">Magaca Waalidka</label>
+                            <input type="text" id="parentName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="parentPhone">Telefoonka Waalidka</label>
+                            <input type="tel" id="parentPhone" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shift">Shift-ka</label>
+                            <select id="shift" class="form-control" required>
+                                <option value="">Dooro Shift-ka</option>
+                                <option value="Subax">Subax</option>
+                                <option value="Galab">Galab</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthlyFee">Lacagta Bishii ($)</label>
+                            <input type="number" id="monthlyFee" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentImage">Sawirka Ardayga</label>
+                            <input type="file" id="studentImage" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Diiwaan Geliyo
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="registrationMessage" class="alert hidden"></div>
+            </div>
         </div>
-    </main>
 
-    <footer>
-        <div class="footer-logo">
-            <img src="logo.png" alt="Casri Electronic Logo">
-            <h4> wixii cilad ah naga soo xariir</h4>
-            <p> <b> 252 616299377</b></p>
+        <!-- STUDENTS -->
+        <div id="students" class="page-content hidden">
+            <div class="form-container mb-20">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="searchStudent">Raadi Ardayga (Magaca ama ID)</label>
+                        <input type="text" id="searchStudent" class="form-control" placeholder="Gali magaca ama ID-ga">
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button class="btn" onclick="searchStudents()">
+                            <i class="fas fa-search"></i> Raadi
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <div class="d-flex justify-between mb-20">
+                    <h2>Dhammaan Ardayda</h2>
+                    <button class="btn" onclick="printStudents()">
+                        <i class="fas fa-print"></i> Daabac
+                    </button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Sawirka</th>
+                            <th>Magaca</th>
+                            <th>Fasalka</th>
+                            <th>Waalidka</th>
+                            <th>Telefoonka</th>
+                            <th>Shift-ka</th>
+                            <th>Lacagta</th>
+                            <th>Ficilka</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTable">
+                        <!-- Data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div>
-            <a href="#" class="social">WhatsApp</a>
-            <a href="#" class="social">Facebook</a>
-            <a href="#" class="social">Twitter</a>
+
+        <!-- PAYMENT -->
+        <div id="payment" class="page-content hidden">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Qabashada Lacagaha Bishii</h2>
+                </div>
+                <form id="paymentForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentClass">Dooro Fasalka</label>
+                            <select id="paymentClass" class="form-control" required onchange="loadStudentsForPayment()">
+                                <option value="">Dooro Fasalka</option>
+                                <option value="Grade 1">Grade 1</option>
+                                <option value="Grade 2">Grade 2</option>
+                                <option value="Grade 3">Grade 3</option>
+                                <option value="Grade 4">Grade 4</option>
+                                <option value="Grade 5">Grade 5</option>
+                                <option value="Grade 6">Grade 6</option>
+                                <option value="Grade 7">Grade 7</option>
+                                <option value="Grade 8">Grade 8</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentStudent">Dooro Ardayga</label>
+                            <select id="paymentStudent" class="form-control" required onchange="loadStudentPaymentInfo()">
+                                <option value="">Marka hore dooro fasalka</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentDate">Taariikhda</label>
+                            <input type="date" id="paymentDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentAmount">Lacagta la Bixinayo ($)</label>
+                            <input type="number" id="paymentAmount" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentStatus">Status-ka</label>
+                            <select id="paymentStatus" class="form-control" required>
+                                <option value="Paid">La Bixiyay</option>
+                                <option value="Partial">Qeyb ahaan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="month">Bisha</label>
+                            <select id="month" class="form-control" required>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div id="paymentInfo" class="alert">
+                                Fadlan dooro ardayga si aad u aragto xogta lacagta
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-money-bill"></i> Lacag Qabo
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="paymentMessage" class="alert hidden"></div>
+            </div>
         </div>
-    </footer>
+
+        <!-- Add other sections (payment-history, statement, exam, transfer, attendance, absent) similarly -->
+        
+        <!-- Simple placeholder for other pages -->
+        <div id="payment-history" class="page-content hidden">
+            <div class="table-container">
+                <h2>Taarikhda Lacagta (Fadlan buuxi qeybkan)</h2>
+                <p>Halkan waxaad ku aragtaa dhammaan lacagaha la bixiyay.</p>
+            </div>
+        </div>
+        
+        <div id="statement" class="page-content hidden">
+            <div class="table-container">
+                <h2>Dukaan-qaadista (Fadlan buuxi qeybkan)</h2>
+                <p>Halkan waxaad sameyn kartaa dukaan-qaadista imtixaannada iyo lacagaha.</p>
+            </div>
+        </div>
+        
+        <div id="exam" class="page-content hidden">
+            <div class="form-container">
+                <h2>Diiwaangelinta Imtixaannada (Fadlan buuxi qeybkan)</h2>
+                <p>Halkan waxaad diiwaan gelin kartaa natiijada ardayda.</p>
+            </div>
+        </div>
+        
+        <div id="transfer" class="page-content hidden">
+            <div class="form-container">
+                <h2>U Wareejinta Fasalka (Fadlan buuxi qeybkan)</h2>
+                <p>Halkan waxaad u wareejin kartaa ardayda fasalka.</p>
+            </div>
+        </div>
+        
+        <div id="attendance" class="page-content hidden">
+            <div class="form-container">
+                <h2>Diiwaangelinta Hadaladka (Fadlan buuxi qeybkan)</h2>
+                <p>Halkan waxaad diiwaan gelin kartaa hadaladka ardayda.</p>
+            </div>
+        </div>
+        
+        <div id="absent" class="page-content hidden">
+            <div class="table-container">
+                <h2>Ardayda Maqnaaday (Fadlan buuxi qeybkan)</h2>
+                <p>Halkan waxaad ku aragtaa ardayda 4 maalin ka badan maqnaaday.</p>
+            </div>
+        </div>
+    </div>
 
     <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        let myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Lacagta Bisha',
-                    data: [],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)'
-                    ],
-                    borderColor: 'rgba(0, 0, 0, 0.8)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+        // Initialize localStorage if empty
+        function initializeStorage() {
+            if (!localStorage.getItem('students')) {
+                localStorage.setItem('students', JSON.stringify([]));
             }
+            if (!localStorage.getItem('payments')) {
+                localStorage.setItem('payments', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('exams')) {
+                localStorage.setItem('exams', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('attendance')) {
+                localStorage.setItem('attendance', JSON.stringify([]));
+            }
+        }
+
+        // Page navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeStorage();
+            updateDashboard();
+            loadStudentsTable();
+            
+            // Set current date for payment form
+            document.getElementById('paymentDate').valueAsDate = new Date();
+            
+            // Navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-links a').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Get page to show
+                    const pageId = this.getAttribute('data-page');
+                    
+                    // Update page title
+                    document.getElementById('pageTitle').textContent = this.textContent.trim();
+                    
+                    // Hide all pages
+                    document.querySelectorAll('.page-content').forEach(page => {
+                        page.classList.add('hidden');
+                    });
+                    
+                    // Show selected page
+                    document.getElementById(pageId).classList.remove('hidden');
+                    
+                    // Update data for specific pages
+                    if (pageId === 'dashboard') {
+                        updateDashboard();
+                    } else if (pageId === 'students') {
+                        loadStudentsTable();
+                    }
+                });
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('menuBtn').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+                document.getElementById('mainContent').classList.toggle('active');
+            });
+            
+            // Registration form submission
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                registerStudent();
+            });
+            
+            // Payment form submission
+            document.getElementById('paymentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                processPayment();
+            });
         });
 
-        function updateChart() {
-            let date = document.getElementById('date').value;
-            let amount = document.getElementById('amount').value;
-            if (date && amount) {
-                let month = new Date(date).toLocaleString('so-SO', { month: 'long' });
-                let index = myChart.data.labels.indexOf(month);
-                if (index !== -1) {
-                    myChart.data.datasets[0].data[index] += parseFloat(amount);
-                } else {
-                    myChart.data.labels.push(month);
-                    myChart.data.datasets[0].data.push(parseFloat(amount));
+        // Generate student ID
+        function generateStudentId() {
+            const students = JSON.parse(localStorage.getItem('students'));
+            const nextNum = students.length + 1;
+            return `SAH-2025-${nextNum.toString().padStart(3, '0')}`;
+        }
+
+        // Register new student
+        function registerStudent() {
+            const name = document.getElementById('studentName').value;
+            const className = document.getElementById('studentClass').value;
+            const parentName = document.getElementById('parentName').value;
+            const parentPhone = document.getElementById('parentPhone').value;
+            const shift = document.getElementById('shift').value;
+            const monthlyFee = document.getElementById('monthlyFee').value;
+            
+            if (!name || !className || !parentName || !parentPhone || !shift || !monthlyFee) {
+                showMessage('registrationMessage', 'Fadlan buuxi dhammaan goobaha', 'danger');
+                return;
+            }
+            
+            const studentId = generateStudentId();
+            const registrationDate = new Date().toISOString().split('T')[0];
+            
+            // Handle image if uploaded
+            const imageInput = document.getElementById('studentImage');
+            let studentImage = '';
+            
+            if (imageInput.files.length > 0) {
+                const file = imageInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    studentImage = e.target.result;
+                    saveStudent(studentId, name, className, parentName, parentPhone, shift, monthlyFee, registrationDate, studentImage);
+                };
+                
+                reader.readAsDataURL(file);
+            } else {
+                saveStudent(studentId, name, className, parentName, parentPhone, shift, monthlyFee, registrationDate, studentImage);
+            }
+        }
+
+        function saveStudent(id, name, className, parentName, parentPhone, shift, monthlyFee, date, image) {
+            const student = {
+                id: id,
+                name: name,
+                className: className,
+                parentName: parentName,
+                parentPhone: parentPhone,
+                shift: shift,
+                monthlyFee: parseInt(monthlyFee),
+                registrationDate: date,
+                image: image,
+                payments: []
+            };
+            
+            const students = JSON.parse(localStorage.getItem('students'));
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+            
+            showMessage('registrationMessage', `Ardayga ${name} waa lagu diiwaan geliyay ID-ga ${id}`, 'success');
+            
+            // Clear form
+            document.getElementById('registrationForm').reset();
+            
+            // Update dashboard and students table
+            updateDashboard();
+            loadStudentsTable();
+        }
+
+        // Load students for payment
+        function loadStudentsForPayment() {
+            const className = document.getElementById('paymentClass').value;
+            const studentSelect = document.getElementById('paymentStudent');
+            
+            studentSelect.innerHTML = '<option value="">Dooro Ardayga</option>';
+            
+            if (!className) return;
+            
+            const students = JSON.parse(localStorage.getItem('students'));
+            const classStudents = students.filter(student => student.className === className);
+            
+            classStudents.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.name} (${student.id})`;
+                studentSelect.appendChild(option);
+            });
+        }
+
+        // Load student payment info
+        function loadStudentPaymentInfo() {
+            const studentId = document.getElementById('paymentStudent').value;
+            
+            if (!studentId) {
+                document.getElementById('paymentInfo').innerHTML = 'Fadlan dooro ardayga si aad u aragto xogta lacagta';
+                return;
+            }
+            
+            const students = JSON.parse(localStorage.getItem('students'));
+            const student = students.find(s => s.id === studentId);
+            
+            if (student) {
+                // Calculate total paid
+                const payments = JSON.parse(localStorage.getItem('payments'));
+                const studentPayments = payments.filter(p => p.studentId === studentId);
+                const totalPaid = studentPayments.reduce((sum, payment) => sum + payment.amount, 0);
+                
+                document.getElementById('paymentInfo').innerHTML = `
+                    <strong>Xogta Lacagta:</strong><br>
+                    Ardayga: ${student.name}<br>
+                    Lacagta Bishii: $${student.monthlyFee}<br>
+                    Lacagta Hore la Bixiyay: $${totalPaid}<br>
+                    Lacagta Harsan: $${student.monthlyFee - totalPaid}
+                `;
+                
+                // Set payment amount to remaining fee
+                document.getElementById('paymentAmount').value = student.monthlyFee - totalPaid;
+            }
+        }
+
+        // Process payment
+        function processPayment() {
+            const studentId = document.getElementById('paymentStudent').value;
+            const date = document.getElementById('paymentDate').value;
+            const amount = parseInt(document.getElementById('paymentAmount').value);
+            const status = document.getElementById('paymentStatus').value;
+            const month = document.getElementById('month').value;
+            
+            if (!studentId || !date || !amount || amount <= 0) {
+                showMessage('paymentMessage', 'Fadlan buuxi dhammaan goobaha', 'danger');
+                return;
+            }
+            
+            const payment = {
+                id: 'PAY-' + Date.now(),
+                studentId: studentId,
+                date: date,
+                amount: amount,
+                status: status,
+                month: month
+            };
+            
+            const payments = JSON.parse(localStorage.getItem('payments'));
+            payments.push(payment);
+            localStorage.setItem('payments', JSON.stringify(payments));
+            
+            showMessage('paymentMessage', `Lacagta $${amount} waa lagu qabanay ${month}`, 'success');
+            
+            // Clear form
+            document.getElementById('paymentForm').reset();
+            document.getElementById('paymentDate').valueAsDate = new Date();
+            
+            // Update dashboard
+            updateDashboard();
+        }
+
+        // Load students table
+        function loadStudentsTable() {
+            const students = JSON.parse(localStorage.getItem('students'));
+            const tableBody = document.getElementById('studentsTable');
+            
+            tableBody.innerHTML = '';
+            
+            if (students.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="9" class="text-center">Ma jiro arday diiwaan geliyay</td></tr>';
+                return;
+            }
+            
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                
+                // Calculate total paid
+                const payments = JSON.parse(localStorage.getItem('payments'));
+                const studentPayments = payments.filter(p => p.studentId === student.id);
+                const totalPaid = studentPayments.reduce((sum, payment) => sum + payment.amount, 0);
+                
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.image ? '<img src="' + student.image + '" width="40" height="40" style="border-radius: 50%;">' : '<i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>'}</td>
+                    <td>${student.name}</td>
+                    <td>${student.className}</td>
+                    <td>${student.parentName}</td>
+                    <td>${student.parentPhone}</td>
+                    <td>${student.shift}</td>
+                    <td>$${student.monthlyFee} (la bixiyay: $${totalPaid})</td>
+                    <td class="actions">
+                        <button class="action-btn edit-btn" onclick="editStudent('${student.id}')">Beddel</button>
+                        <button class="action-btn delete-btn" onclick="deleteStudent('${student.id}')">Tirtir</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Search students
+        function searchStudents() {
+            const searchTerm = document.getElementById('searchStudent').value.toLowerCase();
+            const students = JSON.parse(localStorage.getItem('students'));
+            const tableBody = document.getElementById('studentsTable');
+            
+            tableBody.innerHTML = '';
+            
+            const filteredStudents = students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm) || 
+                student.id.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredStudents.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="9" class="text-center">Lama helin arday</td></tr>';
+                return;
+            }
+            
+            filteredStudents.forEach(student => {
+                const row = document.createElement('tr');
+                
+                // Calculate total paid
+                const payments = JSON.parse(localStorage.getItem('payments'));
+                const studentPayments = payments.filter(p => p.studentId === student.id);
+                const totalPaid = studentPayments.reduce((sum, payment) => sum + payment.amount, 0);
+                
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.image ? '<img src="' + student.image + '" width="40" height="40" style="border-radius: 50%;">' : '<i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>'}</td>
+                    <td>${student.name}</td>
+                    <td>${student.className}</td>
+                    <td>${student.parentName}</td>
+                    <td>${student.parentPhone}</td>
+                    <td>${student.shift}</td>
+                    <td>$${student.monthlyFee} (la bixiyay: $${totalPaid})</td>
+                    <td class="actions">
+                        <button class="action-btn edit-btn" onclick="editStudent('${student.id}')">Beddel</button>
+                        <button class="action-btn delete-btn" onclick="deleteStudent('${student.id}')">Tirtir</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Edit student
+        function editStudent(studentId) {
+            alert(`Beddelida ardayga ${studentId} (Qeybkani waa mid demo ah)`);
+            // In a complete system, you would open a modal or form to edit the student
+        }
+
+        // Delete student
+        function deleteStudent(studentId) {
+            if (confirm('Ma hubtaa inaad rabto inaad tirtirto ardaygan?')) {
+                let students = JSON.parse(localStorage.getItem('students'));
+                students = students.filter(student => student.id !== studentId);
+                localStorage.setItem('students', JSON.stringify(students));
+                
+                // Also delete related payments
+                let payments = JSON.parse(localStorage.getItem('payments'));
+                payments = payments.filter(payment => payment.studentId !== studentId);
+                localStorage.setItem('payments', JSON.stringify(payments));
+                
+                loadStudentsTable();
+                updateDashboard();
+                alert('Ardayga waa la tirtiray');
+            }
+        }
+
+        // Print students
+        function printStudents() {
+            window.print();
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            const students = JSON.parse(localStorage.getItem('students'));
+            const payments = JSON.parse(localStorage.getItem('payments'));
+            const exams = JSON.parse(localStorage.getItem('exams'));
+            
+            // Update counts
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('totalPayments').textContent = payments.length;
+            document.getElementById('totalExams').textContent = exams.length;
+            
+            // Calculate attendance rate (simplified for demo)
+            const attendanceRate = students.length > 0 ? Math.floor(Math.random() * 20) + 80 : 0;
+            document.getElementById('attendanceRate').textContent = `${attendanceRate}%`;
+            
+            // Show recent students
+            const recentStudents = students.slice(-5).reverse();
+            const recentTable = document.getElementById('recentStudents');
+            recentTable.innerHTML = '';
+            
+            recentStudents.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.className}</td>
+                    <td>${student.registrationDate}</td>
+                    <td>$${student.monthlyFee}</td>
+                `;
+                recentTable.appendChild(row);
+            });
+        }
+
+        // Show message
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `alert alert-${type}`;
+            element.classList.remove('hidden');
+            
+            setTimeout(() => {
+                element.classList.add('hidden');
+            }, 5000);
+        }
+
+        // For demo purposes, add some sample data
+        function addSampleData() {
+            const sampleStudents = [
+                {
+                    id: 'SAH-2025-001',
+                    name: 'Axmed Cali',
+                    className: 'Grade 5',
+                    parentName: 'Cali Maxamed',
+                    parentPhone: '0612345678',
+                    shift: 'Subax',
+                    monthlyFee: 50,
+                    registrationDate: '2025-01-15',
+                    image: '',
+                    payments: []
+                },
+                {
+                    id: 'SAH-2025-002',
+                    name: 'Safiya Xasan',
+                    className: 'Grade 3',
+                    parentName: 'Xasan Yuusuf',
+                    parentPhone: '0618765432',
+                    shift: 'Galab',
+                    monthlyFee: 40,
+                    registrationDate: '2025-01-20',
+                    image: '',
+                    payments: []
                 }
-                myChart.update();
-
-                // Keydinta xogta localStorage
-                localStorage.setItem('chartData', JSON.stringify(myChart.data));
-            }
+            ];
+            
+            const samplePayments = [
+                {
+                    id: 'PAY-1',
+                    studentId: 'SAH-2025-001',
+                    date: '2025-02-01',
+                    amount: 50,
+                    status: 'Paid',
+                    month: 'February'
+                }
+            ];
+            
+            localStorage.setItem('students', JSON.stringify(sampleStudents));
+            localStorage.setItem('payments', JSON.stringify(samplePayments));
+            localStorage.setItem('exams', JSON.stringify([]));
+            localStorage.setItem('attendance', JSON.stringify([]));
+            
+            updateDashboard();
+            loadStudentsTable();
         }
 
-        // Soo celinta xogta markasta oo bogga la furo
-        window.onload = function() {
-            let savedData = localStorage.getItem('chartData');
-            if (savedData) {
-                myChart.data = JSON.parse(savedData); // Soo celinta xogta
-                myChart.update();
-            }
-        }
+        // Uncomment the line below to add sample data on first load
+        // addSampleData();
     </script>
 </body>
 </html>
